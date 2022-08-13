@@ -13,7 +13,7 @@ foam.CLASS({
     ],
 
     requires: [
-        'styro.foam.Sandbox',
+        'styro.foam.sandbox.Sandbox',
         'styro.foam.model.POM',
         'styro.foam.model.POMFile'
     ],
@@ -46,18 +46,18 @@ foam.CLASS({
 
                 this.manifestDAO.put(pomFile);
 
-                this.loadProjects_(sandbox, pomFile);
-                this.loadFiles_(sandbox, pomFile);
+                await this.loadProjects_(sandbox, pomFile);
+                await this.loadFiles_(sandbox, pomFile);
             }
         },
-        function loadFiles_ (sandbox, pomFile) {
+        async function loadFiles_ (sandbox, pomFile) {
             //
         },
-        function loadProjects_ (sandbox, pomFile) {
+        async function loadProjects_ (sandbox, pomFile) {
             if ( ! pomFile.contents.projects ) return;
             for ( const entry of pomFile.contents.projects ) {
                 const entryPath = this.path_.join(pomFile.basePath, entry.name + '.js');
-                this.load_(sandbox, entryPath);
+                await this.load_(sandbox, entryPath);
                 // ???: maybe add relationship between POM files
             }
         }

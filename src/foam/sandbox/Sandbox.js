@@ -1,5 +1,5 @@
 foam.CLASS({
-    package: 'styro.foam',
+    package: 'styro.foam.sandbox',
     name: 'Sandbox',
     documentation: `
         Sandbox loads FOAM source files using a mock FOAM environment.
@@ -15,12 +15,19 @@ foam.CLASS({
         'node:vm as vm_'
     ],
 
+    requires: [
+        'styro.foam.sandbox.Dot',
+        'styro.foam.sandbox.Global',
+    ],
+
     properties: [
         {
             class: 'Object',
             name: 'vmContext',
             factory: function () {
-                const ctx = { foam: {} };
+                const self = this;
+
+                const ctx = {};
                 this.addWarningGlobals_(ctx);
 
                 const styro_ = {};
@@ -33,11 +40,40 @@ foam.CLASS({
                 styro_.register = function (method, value) {
                     styro_.results.push({ method, value });
                 };
+
+                let ctxFoam = {};
+
                 for ( const method of styro_.methods ) {
-                    ctx.foam[method] =
+                    ctxFoam[method] =
                         styro_.register.bind(styro_, method);
                 }
-                ctx.foam.styro_ = styro_;
+                ctxFoam.styro_ = styro_;
+
+                const foamMask = [
+                    ...styro_.methods,
+                    'styro_'
+                ];
+                
+                ctxFoam = new Proxy(ctxFoam, {
+                    get (target, prop, accessorThis) {
+                        if ( foamMask.includes(prop) ) {
+                            return Reflect.get(...arguments);
+                        }
+                        console.log('TRIED TO GET', prop)
+                        return styro.foam.sandbox.Globals.getProxy(
+                            self.Dot.create({
+                                node: self.Global.create({ prop: 'foam' }),
+                                prop
+                            })
+                        )
+                    },
+                    set (target, prop, value, accessorThis) {
+                        console.log('TRIED TO SET', prop)
+                        return true;
+                    }
+                });
+
+                ctx.foam = ctxFoam;
 
                 this.vm_.createContext(ctx);
                 return ctx;
