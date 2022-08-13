@@ -7,6 +7,11 @@ foam.CLASS({
         'electron as e_'
     ],
 
+    requires: [
+        'styro.foam.POMLoader',
+        'styro.foam.Sandbox'
+    ],
+
     methods: [
         async function execute() {
             const self = this;
@@ -28,7 +33,7 @@ foam.CLASS({
                         {
                             label: 'Open',
                             async click () {
-                                const fileNames = await self.e_.dialog.showOpenDialog({
+                                const result = await self.e_.dialog.showOpenDialog({
                                     filters: [
                                         {
                                             name: 'POM file',
@@ -37,6 +42,10 @@ foam.CLASS({
                                     ]
                                 });
                                 // TODO: call POMLoader
+                                const loader = self.POMLoader.create();
+                                for ( const path of result.filePaths ) {
+                                    await loader.load(path);
+                                }
                             }
                         },
                         {
@@ -47,6 +56,6 @@ foam.CLASS({
             ];
             const menu = this.e_.Menu.buildFromTemplate(menuTemplate);
             win.setMenu(menu);
-        }
+        } 
     ]
 });

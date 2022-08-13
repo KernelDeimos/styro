@@ -8,6 +8,7 @@ foam.POM({
         'electron/IPCRendererDAO',
         'electron/IPCMainDAO',
         'corn/Client',
+        'corn/Logger',
         'model/Manifest',
         'window/StartWindow'
     ].map(name => ({ name, flags: 'js' })),

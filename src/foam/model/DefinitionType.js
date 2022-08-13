@@ -3,6 +3,7 @@ foam.ENUM({
     name: 'DefinitionType',
 
     values: [
+        'POM',
         'CLASS',
         'INTERFACE',
         'ENUM',

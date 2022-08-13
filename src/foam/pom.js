@@ -6,5 +6,6 @@ foam.POM({
         'model/POM',
         'model/POMFile',
         'POMLoader',
+        'Sandbox',
     ].map(name => ({ name, flags: 'js' }))
 });

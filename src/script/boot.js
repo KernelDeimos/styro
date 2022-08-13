@@ -74,6 +74,10 @@ if ( module === require.main ) {
         x[service.name].cmd_(x, evt);
     }
 
+    x = x.createSubContext({
+        logger: styro.corn.Logger.create()
+    });
+
     const ins = styro.InstanceController.create({
         config: {
             services

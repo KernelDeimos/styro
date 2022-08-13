@@ -12,6 +12,10 @@ foam.CLASS({
             class: 'Enum',
             of: 'styro.model.DefinitionType',
             name: 'type'
+        },
+        {
+            class: 'Object',
+            name: 'value'
         }
     ]
 });

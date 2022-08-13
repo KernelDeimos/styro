@@ -13,6 +13,10 @@ foam.CLASS({
             class: 'FObjectProperty',
             of: 'styro.foam.model.POM',
             name: 'contents'
+        },
+        {
+            class: 'String',
+            name: 'basePath'
         }
     ],
 });
