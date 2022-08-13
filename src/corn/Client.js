@@ -8,11 +8,11 @@ foam.LIB({
     `,
 
     methods: [
-        function createContext () {
+        function createContext (x) {
             // The 'config' global is provided by the 'main' process
             const { services } = globalThis.config;
 
-            let x = foam.__context__.createSubContext({
+            x = x.createSubContext({
                 ipcLinks: globalThis.ipcLinks
             })
 

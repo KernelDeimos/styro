@@ -10,9 +10,11 @@ foam.POM({
         'corn/Client',
         'corn/Logger',
         'model/Manifest',
-        'window/StartWindow'
+        'window/StartWindow',
+        'ui/Controller',
     ].map(name => ({ name, flags: 'js' })),
     projects: [
-        { name: 'foam/pom' }
+        { name: 'foam/pom' },
+        { name: '../includes/wm/pom' }
     ]
 });
