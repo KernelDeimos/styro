@@ -30,7 +30,7 @@ foam.CLASS({
                 x, foam.json.objectify(obj));
             return foam.json.parse(result);
         },
-        async function select(x, sink, skip, limit, order, predicate) {
+        async function select_(x, sink, skip, limit, order, predicate) {
             sink = sink && foam.json.objectify(sink);
             order = order && foam.json.objectify(order);
             predicate = predicate && foam.json.objectify(predicate);
