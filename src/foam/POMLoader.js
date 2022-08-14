@@ -4,7 +4,8 @@ foam.CLASS({
 
     imports: [
         'logger',
-        'manifestDAO'
+        'manifestDAO',
+        'sourceFileDAO'
     ],
 
     nodeRequires: [
@@ -13,9 +14,20 @@ foam.CLASS({
     ],
 
     requires: [
+        'styro.foam.SourceLoader',
         'styro.foam.sandbox.Sandbox',
         'styro.foam.model.POM',
-        'styro.foam.model.POMFile'
+        'styro.foam.model.POMFile',
+        'styro.model.SourceFile'
+    ],
+
+    properties: [
+        {
+            name: 'sourceLoader',
+            factory: function () {
+                return this.SourceLoader.create();
+            }
+        }
     ],
 
     methods: [
@@ -25,6 +37,13 @@ foam.CLASS({
         },
         async function load_ (sandbox, path) {
             const definitions = await sandbox.eval(path);
+
+            const sourceFile = this.SourceFile.create({
+                id: path,
+                type: 'application/x.foam.pom+javascript;version=1'
+            });
+
+            await this.sourceFileDAO.put(sourceFile);
 
             for ( let i = 0 ; i < definitions.length ; i++ ) {
                 const def = definitions[i];
@@ -51,7 +70,11 @@ foam.CLASS({
             }
         },
         async function loadFiles_ (sandbox, pomFile) {
-            //
+            if ( ! pomFile.contents.files ) return;
+            for ( const entry of pomFile.contents.files ) {
+                const entryPath = this.path_.join(pomFile.basePath, entry.name + '.js');
+                await this.sourceLoader.load_(sandbox, entryPath);
+            }
         },
         async function loadProjects_ (sandbox, pomFile) {
             if ( ! pomFile.contents.projects ) return;

@@ -53,6 +53,13 @@ if ( module === require.main ) {
                 class: 'styro.corn.EasyDAO',
                 of: 'styro.model.Manifest'
             }
+        },
+        {
+            name: 'sourceFileDAO',
+            value: {
+                class: 'styro.corn.EasyDAO',
+                of: 'styro.model.SourceFile'
+            }
         }
     ];
     

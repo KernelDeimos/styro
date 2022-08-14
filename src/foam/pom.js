@@ -5,6 +5,7 @@ foam.POM({
         'model/POMEntry',
         'model/POM',
         'model/POMFile',
+        'SourceLoader',
         'POMLoader',
         'sandbox/Sandbox',
         'sandbox/Globals',

@@ -10,6 +10,7 @@ foam.POM({
         'corn/Client',
         'corn/Logger',
         'model/Manifest',
+        'model/SourceFile',
         'window/StartWindow',
         'ui/Controller',
         'ui/facet/BigChoiceView',

@@ -56,11 +56,12 @@ foam.CLASS({
                                     view: {
                                         class: 'foam.u2.DAOList',
                                         rowView: {
-                                            class: 'styro.ui.facet.BigChoiceView',
-                                            of: 'styro.model.Manifest'
+                                            class: 'foam.u2.DetailView',
+                                            // class: 'styro.ui.facet.BigChoiceView',
+                                            // of: 'styro.model.Manifest'
                                         }
                                     },
-                                    data: this.__subContext__.manifestDAO
+                                    data: this.__subContext__.sourceFileDAO
                                 }
                             }
                         ]

@@ -1,7 +1,7 @@
 foam.CLASS({
     package: 'styro.model',
     name: 'SourceFile',
-    documentation: `represents a javascript file loaded from a pom file`,
+    documentation: `represents a file that is readable as plaintext`,
 
     properties: [
         {
