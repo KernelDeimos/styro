@@ -24,6 +24,13 @@ foam.CLASS({
         async function load_ (sandbox, path) {
             const definitions = await sandbox.eval(path);
             // TODO
+
+            const sourceFile = this.SourceFile.create({
+                id: path,
+                type: 'application/javascript'
+            });
+
+            await this.sourceFileDAO.put(sourceFile);
         }
     ]
 });

@@ -19,6 +19,8 @@ foam.POM({
         'ui/Flex',
         'ui/Frame',
         'ui/Window',
+        'ui/WindowConsumer',
+        'scratchpad'
     ].map(name => ({ name, flags: 'js' })),
     projects: [
         { name: 'foam/pom' }

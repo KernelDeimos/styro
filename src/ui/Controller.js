@@ -45,11 +45,12 @@ foam.CLASS({
                                 basis: '18rem',
                                 window: {
                                     class: 'styro.ui.Window',
-                                    view: 'styro.ui.Placeholder'
+                                    view: 'styro.ui.TestEl'
                                 }
                             },
                             {
                                 class: 'styro.ui.Frame',
+                                receives: ['default', 'main'],
                                 grow: 1,
                                 window: {
                                     class: 'styro.ui.Window',
