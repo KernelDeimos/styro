@@ -7,6 +7,15 @@ foam.CLASS({
         :root {
             font-size: 10px;
         }
+        BODY {
+            margin: 0;
+            padding: 0;
+        }
+        ^contents {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+        }
     `,
 
     properties: [
@@ -23,31 +32,38 @@ foam.CLASS({
             this.clientLoaded = true;
         },
         function render () {
+            const self = this;
             this.add(this.slot(function (clientLoaded) {
                 if ( ! clientLoaded ) return this.E();
                 return this.E()
+                    .addClass(self.myClass('contents'))
                     .tag({
-                        class: 'com.ericdube.wm.TWMView',
-                        data: {
-                            class: 'com.ericdube.wm.TWMModel',
-                            rootContainer: {
-                                class: 'com.ericdube.wm.Container',
-                                wmNodes: [
-                                    {
-                                        class: 'com.ericdube.wm.Window',
-                                        view: {
-                                            class: 'foam.u2.DAOList',
-                                            rowView: {
-                                                class: 'styro.ui.facet.BigChoiceView',
-                                                of: 'styro.model.Manifest'
-                                                // class: 'styro.model.ManifestBigChoiceView',
-                                            }
-                                        },
-                                        data: this.__subContext__.manifestDAO
-                                    }
-                                ]
+                        class: 'styro.ui.Flex',
+                        views: [
+                            {
+                                class: 'styro.ui.Frame',
+                                basis: '18rem',
+                                window: {
+                                    class: 'styro.ui.Window',
+                                    view: 'styro.ui.Placeholder'
+                                }
+                            },
+                            {
+                                class: 'styro.ui.Frame',
+                                grow: 1,
+                                window: {
+                                    class: 'styro.ui.Window',
+                                    view: {
+                                        class: 'foam.u2.DAOList',
+                                        rowView: {
+                                            class: 'styro.ui.facet.BigChoiceView',
+                                            of: 'styro.model.Manifest'
+                                        }
+                                    },
+                                    data: this.__subContext__.manifestDAO
+                                }
                             }
-                        }
+                        ]
                     })
             }));
         }

@@ -13,10 +13,13 @@ foam.POM({
         'window/StartWindow',
         'ui/Controller',
         'ui/facet/BigChoiceView',
-        'ui/refine/ManifestBigChoiceView'
+        'ui/refine/ManifestBigChoiceView',
+        'ui/Placeholder',
+        'ui/Flex',
+        'ui/Frame',
+        'ui/Window',
     ].map(name => ({ name, flags: 'js' })),
     projects: [
-        { name: 'foam/pom' },
-        { name: '../includes/wm/pom' }
+        { name: 'foam/pom' }
     ]
 });
