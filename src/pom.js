@@ -12,6 +12,8 @@ foam.POM({
         'model/Manifest',
         'window/StartWindow',
         'ui/Controller',
+        'ui/facet/BigChoiceView',
+        'ui/refine/ManifestBigChoiceView'
     ].map(name => ({ name, flags: 'js' })),
     projects: [
         { name: 'foam/pom' },

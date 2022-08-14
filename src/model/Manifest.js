@@ -8,6 +8,14 @@ foam.CLASS({
             class: 'String',
             name: 'id',
             documentation: 'unique identifier of manifest'
+        },
+        {
+            class: 'String',
+            name: 'name'
+        },
+        {
+            class: 'String',
+            name: 'version'
         }
     ]
 });

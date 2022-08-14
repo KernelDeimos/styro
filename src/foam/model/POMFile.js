@@ -17,6 +17,18 @@ foam.CLASS({
         {
             class: 'String',
             name: 'basePath'
+        },
+        {
+            name: 'name',
+            expression: function (contents$name) {
+                return contents$name;
+            }
+        },
+        {
+            name: 'version',
+            expression: function (contents$version) {
+                return contents$version;
+            }
         }
     ],
 });

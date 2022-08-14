@@ -3,6 +3,12 @@ foam.CLASS({
     name: 'Controller',
     extends: 'foam.u2.Controller',
 
+    css: `
+        :root {
+            font-size: 10px;
+        }
+    `,
+
     properties: [
         { class: 'Boolean', name: 'clientLoaded' }
     ],
@@ -31,7 +37,11 @@ foam.CLASS({
                                         class: 'com.ericdube.wm.Window',
                                         view: {
                                             class: 'foam.u2.DAOList',
-                                            rowView: 'foam.u2.CitationView'
+                                            rowView: {
+                                                class: 'styro.ui.facet.BigChoiceView',
+                                                of: 'styro.model.Manifest'
+                                                // class: 'styro.model.ManifestBigChoiceView',
+                                            }
                                         },
                                         data: this.__subContext__.manifestDAO
                                     }
