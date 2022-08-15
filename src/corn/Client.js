@@ -18,10 +18,17 @@ foam.LIB({
 
             const xSpec = {};
             for ( const service of services ) {
-                xSpec[service.name] = foam.json.parse(service.value, undefined, x);
+                // TODO: assumes all services are DAOs
+                const easyDAO = foam.json.parse(service.value, undefined, x);
+                xSpec[service.name] = easyDAO.proxy;
             }
 
             x = x.createSubContext(xSpec);
+
+            for ( const service of services ) {
+                const easyDAO = foam.json.parse(service.value, undefined, x);
+                xSpec[service.name].delegate = easyDAO;
+            }
 
             const setupEvent = styro.corn.SetupEvent.create({
                 terminalDAO: styro.electron.IPCRendererDAO

@@ -52,7 +52,7 @@ foam.CLASS({
                             view: {
                                 class: 'foam.u2.view.SuggestedTextField',
                                 daoKey: 'sourceFileDAO',
-                                onSelect: this.rowClick.bind(this)
+                                onSelect: this.rowClick
                             }
                         }))
                     })

@@ -4,6 +4,7 @@ foam.CLASS({
     extends: 'foam.dao.ProxyDAO',
 
     requires: [
+        'foam.dao.ProxyDAO',
         'styro.corn.SetupEvent'
     ],
 
@@ -15,6 +16,13 @@ foam.CLASS({
         {
             class: 'foam.dao.DAOProperty',
             name: 'delegate'
+        },
+        {
+            class: 'foam.dao.DAOProperty',
+            name: 'proxy',
+            factory: function () {
+                return this.ProxyDAO.create({ of: this.of });
+            }
         }
     ],
 

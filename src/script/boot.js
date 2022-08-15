@@ -60,6 +60,20 @@ if ( module === require.main ) {
                 class: 'styro.corn.EasyDAO',
                 of: 'styro.model.SourceFile'
             }
+        },
+        {
+            name: 'manifestSourceFileJunctionDAO',
+            value: {
+                class: 'styro.corn.EasyDAO',
+                of: 'styro.model.ManifestSourceFileJunction'
+            }
+        },
+        {
+            name: 'manifestManifestJunctionDAO',
+            value: {
+                class: 'styro.corn.EasyDAO',
+                of: 'styro.model.ManifestManifestJunction'
+            }
         }
     ];
     
