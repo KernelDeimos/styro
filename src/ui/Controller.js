@@ -7,6 +7,9 @@ foam.CLASS({
         :root {
             font-size: 10px;
         }
+        * {
+            box-sizing: border-box;
+        }
         BODY {
             margin: 0;
             padding: 0;
@@ -27,8 +30,9 @@ foam.CLASS({
             this.asyncInit();
         },
         async function asyncInit() {
-            this.setPrivate_('__subContext__',
-                await styro.corn.Client.createContext(this.__subContext__));
+            const x = await styro.corn.Client.createContext(this.__subContext__);
+            this.setPrivate_('__subContext__', x);
+            this.__subSubContext__ = x;
             this.clientLoaded = true;
         },
         function render () {
@@ -36,6 +40,10 @@ foam.CLASS({
             this.add(this.slot(function (clientLoaded) {
                 if ( ! clientLoaded ) return this.E();
                 return this.E()
+                    .call(function () {
+                        // TODO: not sure why this is necessary
+                        this.__subSubContext__ = self.__subContext__;
+                    })
                     .addClass(self.myClass('contents'))
                     .tag({
                         class: 'styro.ui.Flex',
@@ -55,14 +63,8 @@ foam.CLASS({
                                 window: {
                                     class: 'styro.ui.Window',
                                     view: {
-                                        class: 'foam.u2.DAOList',
-                                        rowView: {
-                                            class: 'foam.u2.DetailView',
-                                            // class: 'styro.ui.facet.BigChoiceView',
-                                            // of: 'styro.model.Manifest'
-                                        }
-                                    },
-                                    data: this.__subContext__.sourceFileDAO
+                                        class: 'styro.ui.Placeholder'
+                                    }
                                 }
                             }
                         ]

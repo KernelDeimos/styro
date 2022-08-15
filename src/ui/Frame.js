@@ -43,7 +43,7 @@ foam.CLASS({
                 .add(this.slot(function (window) {
                     const el = this.ViewSpec.createView(this.window.view, {
                         data$: this.window.data$
-                    }, this, this);
+                    }, this, this.__subContext__);
                     return el;
                 }))
         },
