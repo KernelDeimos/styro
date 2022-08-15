@@ -11,6 +11,7 @@ foam.POM({
         'corn/Logger',
         'model/Manifest',
         'model/SourceFile',
+        'model/relationships',
         'window/StartWindow',
         'ui/Controller',
         'ui/facet/BigChoiceView',

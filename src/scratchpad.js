@@ -27,7 +27,18 @@ foam.CLASS({
             postSet: function () {
                 console.log('i was set');
             }
-        }
+        },
+        {
+            class: 'String',
+            name: 'testSearch',
+            view: {
+                class: 'foam.u2.SearchField',
+                onKey: true,
+                ariaLabel: 'Test Search',
+                autocomplete: false
+            },
+            value: ''
+        },
     ],
 
     methods: [
@@ -57,6 +68,21 @@ foam.CLASS({
                                     class: 'styro.ui.facet.BigChoiceView',
                                     of: 'styro.model.Manifest'
                                 }
+                            },
+                            data: this.__subContext__.manifestDAO
+                        }))
+                    })
+                .end()
+                .start('button')
+                    .add('test project tree')
+                    .on('click', () => {
+                        this.consumeWindow(this.Window.create({
+                            view: {
+                                class: 'foam.u2.view.TreeView',
+                                relationship:
+                                    styro.model.ManifestManifestDependanciesRelationship,
+                                startExpanded: true,
+                                query: this.testSearch$
                             },
                             data: this.__subContext__.manifestDAO
                         }))
