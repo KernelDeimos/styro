@@ -5,6 +5,7 @@ foam.CLASS({
     imports: [
         'logger',
         'manifestDAO',
+        'manifestManifestJunctionDAO',
         'sourceFileDAO'
     ],
 
@@ -18,6 +19,7 @@ foam.CLASS({
         'styro.foam.sandbox.Sandbox',
         'styro.foam.model.POM',
         'styro.foam.model.POMFile',
+        'styro.model.ManifestManifestJunction',
         'styro.model.SourceFile'
     ],
 
@@ -35,7 +37,7 @@ foam.CLASS({
             const sandbox = this.Sandbox.create();
             return this.load_(sandbox, path);
         },
-        async function load_ (sandbox, path) {
+        async function load_ (sandbox, path, opt_pom) {
             const definitions = await sandbox.eval(path);
 
             const sourceFile = this.SourceFile.create({
@@ -64,6 +66,14 @@ foam.CLASS({
                 });
 
                 this.manifestDAO.put(pomFile);
+            
+                if ( opt_pom ) {
+                    const junction = this.ManifestManifestJunction.create({
+                        sourceId: opt_pom.id,
+                        targetId: pomFile.id
+                    });
+                    await this.manifestManifestJunctionDAO.put(junction);
+                }
 
                 await this.loadProjects_(sandbox, pomFile);
                 await this.loadFiles_(sandbox, pomFile);
@@ -73,14 +83,14 @@ foam.CLASS({
             if ( ! pomFile.contents.files ) return;
             for ( const entry of pomFile.contents.files ) {
                 const entryPath = this.path_.join(pomFile.basePath, entry.name + '.js');
-                await this.sourceLoader.load_(sandbox, entryPath);
+                await this.sourceLoader.load_(sandbox, entryPath, pomFile);
             }
         },
         async function loadProjects_ (sandbox, pomFile) {
             if ( ! pomFile.contents.projects ) return;
             for ( const entry of pomFile.contents.projects ) {
                 const entryPath = this.path_.join(pomFile.basePath, entry.name + '.js');
-                await this.load_(sandbox, entryPath);
+                await this.load_(sandbox, entryPath, pomFile);
                 // ???: maybe add relationship between POM files
             }
         }

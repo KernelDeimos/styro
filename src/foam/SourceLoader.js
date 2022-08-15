@@ -3,7 +3,8 @@ foam.CLASS({
     name: 'SourceLoader',
 
     imports: [
-        'sourceFileDAO'
+        'sourceFileDAO',
+        'manifestSourceFileJunctionDAO'
     ],
 
     nodeRequires: [
@@ -13,6 +14,7 @@ foam.CLASS({
 
     requires: [
         'styro.foam.sandbox.Sandbox',
+        'styro.model.ManifestSourceFileJunction',
         'styro.model.SourceFile'
     ],
 
@@ -21,7 +23,7 @@ foam.CLASS({
             const sandbox = this.Sandbox.create();
             return this.load_(sandbox, path);
         },
-        async function load_ (sandbox, path) {
+        async function load_ (sandbox, path, opt_pom) {
             const definitions = await sandbox.eval(path);
             // TODO
 
@@ -31,6 +33,14 @@ foam.CLASS({
             });
 
             await this.sourceFileDAO.put(sourceFile);
+
+            if ( opt_pom ) {
+                const junction = this.ManifestSourceFileJunction.create({
+                    sourceId: opt_pom.id,
+                    targetId: sourceFile.id
+                });
+                await this.manifestSourceFileJunctionDAO.put(junction);
+            }
         }
     ]
 });
