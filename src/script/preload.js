@@ -5,8 +5,8 @@ const { contextBridge, ipcRenderer } = require('electron');
     const config = await ipcRenderer.invoke('getConfig');
     contextBridge.exposeInMainWorld('config', config);
 
-    const daoOperationFn = async function (serviceName, method, _, obj) {
-        return await ipcRenderer.invoke(`dao.${serviceName}.${method}`, null, obj);
+    const daoOperationFn = async function (serviceName, method, _, ...a) {
+        return await ipcRenderer.invoke(`dao.${serviceName}.${method}`, null, ...a);
     }
 
     const ipcLinks = {};
