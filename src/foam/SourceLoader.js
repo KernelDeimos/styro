@@ -110,9 +110,6 @@ foam.CLASS({
                     Dot: (node, resolve) => {
                         const lhs = resolve(node.node);
                         if ( ! lhs ) return undefined;
-                        if ( node.prop === 'PHONE_NUMBER_REGEX' ) {
-                            console.log('whaaaat')
-                        }
                         return lhs[node.prop];
                     },
                     Call: (node, resolve) => {
@@ -152,8 +149,8 @@ foam.CLASS({
             });
 
             const result = resolver.resolve(value);
-            console.log(value.__STYRO_NODE__.toString())
-            console.log('resolved it to:', result)
+            // console.log(value.__STYRO_NODE__.toString())
+            // console.log('resolved it to:', result)
             return result;
         }
     ]
