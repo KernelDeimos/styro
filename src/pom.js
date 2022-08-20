@@ -5,6 +5,7 @@ foam.POM({
         'NodeRequires',
         'corn/EasyDAO',
         'corn/SetupEvent',
+        'electron/IPCJSON',
         'electron/IPCRendererDAO',
         'electron/IPCMainDAO',
         'corn/Client',

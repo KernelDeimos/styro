@@ -5,11 +5,34 @@ globalThis.foam.flags.node = true;
 
 foam.require(path_.join(__dirname, '../../pom'));
 
+(() => {
+    const backupConsole = console;
+    const backupConsoleLog = console.log;
+
+    globalThis.HELP_ME = (...args) => {
+        const messages = [];
+        if ( console !== backupConsole ) {
+            messages.push('[ALERT] console has been replaced');
+        }
+        if ( backupConsole.log != backupConsoleLog ) {
+            messages.push('[ALERT] .log member of console has been replaced');
+        }
+
+        for ( const msg of messages ) {
+            process.stdout.write(msg + '\n');
+        }
+        process.stdout.write('PROVIDED ARGS: [START]' + args.join('[D]') + '[END]\n');
+    }
+})();
+
 foam.CLASS({
     package: 'styro',
     name: 'InstanceController',
 
-    requires: ['styro.StartWindow'],
+    requires: [
+        'styro.StartWindow',
+        'styro.electron.IPCMainDAO'
+    ],
 
     nodeRequires: [
         'electron as e_',
@@ -74,16 +97,26 @@ if ( module === require.main ) {
                 class: 'styro.corn.EasyDAO',
                 of: 'styro.model.ManifestManifestJunction'
             }
+        },
+        {
+            name: 'definitionDAO',
+            value: {
+                class: 'styro.corn.EasyDAO',
+                of: 'styro.foam.model.Definition'
+            }
         }
     ];
+
+    // let x = foam.box.Context.create().__subContext__;
+    x = foam.__context__;
     
     let xSpec = {};
     for ( const service of services ) {
-        value = foam.json.parse(service.value);
+        value = foam.json.parse(service.value, undefined, x);
         xSpec[service.name] = value;
     }
 
-    let x = foam.__context__.createSubContext(xSpec);
+    x = x.createSubContext(xSpec);
 
     const setupEvent = styro.corn.SetupEvent.create({
         terminalDAO: foam.dao.MDAO

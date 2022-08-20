@@ -1,7 +1,7 @@
 foam.RELATIONSHIP({
+    package: 'styro.foam.model',
     sourceModel: 'styro.model.SourceFile',
-    targetModel: 'styro.model.Definition',
-    cardinality: '1:*',
+    targetModel: 'styro.foam.model.Definition',
     forwardName: 'definitions',
     inverseName: 'sourceFile'
 })

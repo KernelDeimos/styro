@@ -17,26 +17,26 @@ foam.CLASS({
     methods: [
         async function put_(x, obj) {
             const result = await this.ipcLinks[this.serviceName].put_(
-                x, foam.json.objectify(obj));
-            return foam.json.parse(result);
+                x, styro.electron.IPCJSON.serialize(obj));
+            return styro.electron.IPCJSON.deserialize(result, x);
         },
         async function find_(x, obj) {
             const result = await this.ipcLinks[this.serviceName].find_(
-                x, foam.json.objectify(obj));
-            return foam.json.parse(result);
+                x, styro.electron.IPCJSON.serialize(obj));
+            return styro.electron.IPCJSON.deserialize(result, x);
         },
         async function remove_(x, obj) {
             const result = await this.ipcLinks[this.serviceName].find_(
-                x, foam.json.objectify(obj));
-            return foam.json.parse(result);
+                x, styro.electron.IPCJSON.serialize(obj));
+            return styro.electron.IPCJSON.deserialize(result, x);
         },
         async function select_(x, sink, skip, limit, order, predicate) {
-            sink = sink && foam.json.objectify(sink);
-            order = order && foam.json.objectify(order);
-            predicate = predicate && foam.json.objectify(predicate);
+            sink = sink && styro.electron.IPCJSON.serialize(sink);
+            order = order && styro.electron.IPCJSON.serialize(order);
+            predicate = predicate && styro.electron.IPCJSON.serialize(predicate);
             const result = await this.ipcLinks[this.serviceName].select_(
                 x, sink, skip, limit, order, predicate);
-            return foam.json.parse(result);
+            return styro.electron.IPCJSON.deserialize(result, x);
         },
     ]
 });

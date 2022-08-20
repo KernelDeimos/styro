@@ -19,6 +19,7 @@ foam.CLASS({
         'styro.foam.sandbox.Sandbox',
         'styro.foam.model.POM',
         'styro.foam.model.POMFile',
+        'styro.foam.model.DefinitionType',
         'styro.model.ManifestManifestJunction',
         'styro.model.SourceFile'
     ],
@@ -50,7 +51,7 @@ foam.CLASS({
             for ( let i = 0 ; i < definitions.length ; i++ ) {
                 const def = definitions[i];
 
-                if ( def.method !== 'POM' ) {
+                if ( def.method !== this.DefinitionType.POM ) {
                     this.logger.warn(
                         `unexpected call to foam.${def.method} in POM file: ` +
                         path);

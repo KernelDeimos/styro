@@ -23,6 +23,7 @@ foam.CLASS({
     requires: [
         'styro.foam.sandbox.Dot',
         'styro.foam.sandbox.Global',
+        'styro.foam.sandbox.RawDefinition'
     ],
 
     properties: [
@@ -33,6 +34,12 @@ foam.CLASS({
                 const self = this;
 
                 const ctx = {};
+
+                // This prevents the resulting model from including the global
+                // "this" inside it, which is meaningless and destructive.
+                // (check happens in SourceLoader.resolveDynamicValues)
+                ctx.__STYRO_NOT_RESOLVABLE__ = true;
+
                 this.addWarningGlobals_(ctx);
 
                 const styro_ = {};
@@ -43,7 +50,7 @@ foam.CLASS({
                 ];
                 styro_.results = [];
                 styro_.register = function (method, value) {
-                    styro_.results.push({ method, value });
+                    styro_.results.push(self.RawDefinition.create({ method, value }));
 
                     // TODO: maybe we run it here
                     if ( method === 'SCRIPT' ) return;
@@ -95,6 +102,7 @@ foam.CLASS({
                 }
                 ctxFoam.styro_ = styro_;
                 ctxFoam.String = foam.String;
+                ctxFoam.__context__ = {};
 
                 const foamMask = [
                     ...styro_.methods,
@@ -122,6 +130,15 @@ foam.CLASS({
 
     methods: [
         async function eval (path) {
+            if ( ! this.vmContext.foam.styro_ ) {
+                // This happens if the resolver is run without cloning and a
+                // model contains an object like "this" or "globalThis".
+                // Since "console" is passed to the sandbox, it will be
+                // oblitterated also.
+                HELP_ME('CONTEXT INVALIDATED');
+                process.exit(1);
+                this.clearProperty('vmContext');
+            }
             this.vmContext.foam.styro_.results = [];
 
             path = this.path_.resolve(path);

@@ -1,5 +1,5 @@
 foam.ENUM({
-    package: 'styro.model',
+    package: 'styro.foam.model',
     name: 'DefinitionType',
 
     values: [

@@ -3,6 +3,10 @@ foam.CLASS({
     name: 'Controller',
     extends: 'foam.u2.Controller',
 
+    implements: [
+        'foam.box.Context'
+    ],
+
     css: `
         :root {
             font-size: 10px;

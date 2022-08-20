@@ -38,7 +38,7 @@ foam.LIB({
             const cache = {};
             return new Proxy(target, {
                 get (target, prop, accessorThis) {
-                    if ( target.hasOwnProperty(prop) ) {
+                    if ( prop in target ) {
                         return Reflect.get(...arguments);
                     }
                     if ( ! cache[prop] ) {
@@ -78,6 +78,13 @@ foam.CLASS({
     properties: [
         'node',
         'prop'
+    ],
+
+    methods: [
+        function toString() {
+            return this.node.toString() + '[' +
+                JSON.stringify(this.prop) + ']';
+        }
     ]
 });
 
@@ -88,6 +95,16 @@ foam.CLASS({
     properties: [
         'node',
         'args'
+    ],
+
+    methods: [
+        function toString() {
+            return this.node.toString() + '(' +
+                this.args.map(v => {
+                    if ( v.__STYRO_NODE__ ) return v.toString();
+                    return JSON.stringify(v);
+                }).join(', ') + ')';
+        }
     ]
 });
 
@@ -97,5 +114,12 @@ foam.CLASS({
 
     properties: [
         'prop'
+    ],
+
+    methods: [
+        function toString() {
+            if ( this.prop ) return this.prop;
+            return 'globalThis';
+        }
     ]
 })
